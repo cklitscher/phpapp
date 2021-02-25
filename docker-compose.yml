@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   app:
-    image: cklitscher/php-demo:latest
+    image: cklitscher/phpapp:latest
     restart: always
   nginx:
     image: shiphp/nginx-env
