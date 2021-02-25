@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  app:
+    image: cklitscher/php-demo:latest
+    restart: always
+  nginx:
+    image: shiphp/nginx-env
+    restart: always
+    ports:
+      - 8088:80
+    environment:
+      - NGINX_HOST=app

@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ozgapp
+  labels:
+    app: ozgapp
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+      nodePort: 32154
+  selector:
+    app: ozgapp
+    tier: frontend
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ozgapp
+  labels:
+    app: ozgapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ozgapp
+      tier: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: ozgapp
+        tier: frontend
+    spec:
+      containers:
+      - image: cklitscher/ozgapp:0.7
+        name: ozgapp
+        env:
+        - name: ozgApp_DB_HOST
+          value: ozgapp-mysql
+        - name: ozgApp_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-pass
+              key: password
+        ports:
+        - containerPort: 5000
+          name: ozgapp
