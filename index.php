@@ -1,4 +1,6 @@
 <?php
+header("Refresh: 5"); 
+
 echo 'Date of last build: ';
 readfile('./date.inc');
 
